@@ -1,7 +1,8 @@
 set -e
 
 if [[ $MASTER_API_SWAGGER_URL = local ]]; then
-    MASTER_API_SWAGGER_URL=https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT_HTTPS/swaggerui
+    export NODE_TLS_REJECT_UNAUTHORIZED=0
+    MASTER_API_SWAGGER_URL=https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT_HTTPS/swaggerapi
 fi
 
 api-spec-converter --from=swagger_1 $MASTER_API_SWAGGER_URL --to=swagger_2 > /www/swagger.json
