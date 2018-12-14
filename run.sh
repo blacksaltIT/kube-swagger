@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 set -e
 
 if [[ $MASTER_API_SWAGGER_URL = local ]]; then
