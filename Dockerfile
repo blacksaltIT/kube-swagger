@@ -7,12 +7,12 @@ RUN apk update && \
        rm -rf /var/cache/apk/*
 RUN chmod 777 /www
 
-ENV MASTER_API_SWAGGER_URL=required
+ENV MASTER_API_SWAGGER_URL=local
 ENV KEEP_API_CALLS=false
+
+COPY run.sh /
+RUN chmod +x /run.sh
+
 USER 123456789
 EXPOSE 8080
-CMD api-spec-converter --from=swagger_1 $MASTER_API_SWAGGER_URL --to=swagger_2 > /www/swagger.json && \
-    ([ "$KEEP_API_CALLS" = "false" ] && \
-       jq 'del(.tags[0:], .paths) | . + {"paths":{}}' /www/swagger.json > /www/swagger.json.nopaths && \
-       mv /www/swagger.json.nopaths /www/swagger.json || true) && \
-    http-server /www 
+CMD /run.sh
